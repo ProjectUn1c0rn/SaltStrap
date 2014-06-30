@@ -1,7 +1,9 @@
 #!/bin/bash
-# use "wget https://raw.githubusercontent.com/ProjectUn1c0rn/SaltStrap/master/bootstrap.sh|sudo sh"
+# as root :
+# apt-get install ca-certificates -y
+# wget -O - https://raw.githubusercontent.com/ProjectUn1c0rn/SaltStrap/master/bootstrap.sh|sh
 # salt-minion install :
-wget -O - https://bootstrap.saltstack.com | sudo sh
+wget -O - https://bootstrap.saltstack.com  -O -|sh
 cat > /etc/salt/minion <<EOF
 fileserver_backend:
   - git
