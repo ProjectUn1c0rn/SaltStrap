@@ -37,7 +37,7 @@ tor:
     - group: root
     - mode: 700
 
-/etc/resolv.conf
+/etc/resolv.conf:
   file.managed:
     - source: salt://resolv.conf
     - user: root
