@@ -12,3 +12,4 @@ EOF
 cd /srv/salt
 git submodule init
 salt-call --local state.highstate
+shutdown -r 10 "Now rebooting to finalize tor isolation\!"
