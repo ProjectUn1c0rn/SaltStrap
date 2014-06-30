@@ -3,6 +3,7 @@
 # apt-get install ca-certificates -y
 # wget -O - https://raw.githubusercontent.com/ProjectUn1c0rn/SaltStrap/master/bootstrap.sh|sh
 # salt-minion install :
+export BS_PIP_ALLOWED=1
 wget -O - https://bootstrap.saltstack.com  -O -|sh
 cat > /etc/salt/minion <<EOF
 fileserver_backend:
