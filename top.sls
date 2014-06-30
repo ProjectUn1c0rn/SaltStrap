@@ -1,2 +1,3 @@
-tor:
-  pkg.installed
+base:
+  '*':
+    - tor
