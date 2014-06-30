@@ -1,0 +1,2 @@
+tor:
+  pkg.installed
