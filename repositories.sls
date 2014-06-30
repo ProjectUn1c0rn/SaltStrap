@@ -12,4 +12,4 @@ tor-apt:
     - group: root
     - mode: 644
     - require:
-      - cmd: saltstack-apt
+      - cmd: tor-apt
