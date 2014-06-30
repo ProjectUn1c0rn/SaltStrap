@@ -2,7 +2,7 @@ tor-apt:
   cmd:
     - run
     - name: apt-key adv --keyserver keys.gnupg.net --recv 886DDD89
-    - unless: apt-key list | grep -q 0E27C0A6
+    - unless: apt-key list | grep -q 886DDD89
 
 /etc/apt/sources.list.d/tor.list:
   file:
