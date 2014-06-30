@@ -15,7 +15,6 @@ tor-apt:
       - cmd: tor-apt
 tor:
   pkg:
-    - installed
     - latest
   service:
     - running
