@@ -6,6 +6,7 @@ tor:
     - require:
       - pkg: tor
       - file: /etc/tor/torrc
+      - cmd: tor-repo-installed
       
 /etc/tor/torrc:
   file.managed:
