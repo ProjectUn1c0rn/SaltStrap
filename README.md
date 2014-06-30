@@ -5,7 +5,7 @@ Bootstrap an Un1c0rn instance from bare Debian stable
 ##Requirement
 
  * Clean debian stable installation
- * Full Internet access 
+ * Full Internet access (NATed or not)
 
 ##Install 
 
