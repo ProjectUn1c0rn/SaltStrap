@@ -6,9 +6,9 @@
 export BS_PIP_ALLOWED=0
 wget -O - https://bootstrap.saltstack.com  -O -|sh
 cat > /etc/salt/minion <<EOF
-fileserver_backend:
-  - git
-gitfs_remotes:
-  - https://github.com/ProjectUn1c0rn/SaltStrap.git
+#all default
 EOF
+[ ! -d /srv/salt ] && git clone https://github.com/ProjectUn1c0rn/SaltStrap.git /srv/salt
+cd /srv/salt
+git submodule init
 salt-call --local state.highstate
