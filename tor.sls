@@ -6,7 +6,6 @@ tor:
     - require:
       - pkg: tor
       - file: /etc/tor/torrc
-      - tor-apt
       
 /etc/tor/torrc:
   file.managed:
