@@ -52,6 +52,5 @@ iptables -A OUTPUT -j REJECT
 iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,FIN ACK,FIN -j DROP
 iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,RST ACK,RST -j DROP
 
-service tor restart
 
 [ $REBOOT_ME -eq 1 ] && shutdown -r -t 10 1 "Rebooting to finish full tor isolation !"
