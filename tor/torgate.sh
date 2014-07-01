@@ -6,11 +6,11 @@
 # gathered from bootstrap export (export SALTSTRAP_NONTOR=192.168.1.0/24)
 
 REBOOT_ME=0
-if [ ! -f /var/run/torgate.configured ]; then
+if [ ! -f /etc/torgate.configured ]; then
 	#not configured yet, get non-tor nets from env and set :
 	REBOOT_ME=1
 	echo _non_tor=$SALTSTRAP_NONTOR >> /etc/environment
-	touch /var/run/torgate.configured
+	touch /etc/torgate.configured
 fi	
 . /etc/environment
 
