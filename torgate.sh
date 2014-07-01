@@ -54,4 +54,4 @@ iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-fla
 
 service tor restart
 
-[ $REBOOT_ME -eq 1 ] && shutdown -t 10 1 "Rebooting to finish full tor isolation !"
+[ $REBOOT_ME -eq 1 ] && shutdown -r -t 10 1 "Rebooting to finish full tor isolation !"
