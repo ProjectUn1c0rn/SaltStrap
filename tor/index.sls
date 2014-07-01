@@ -18,6 +18,8 @@ tor:
     - latest
   service:
     - running
+    - watch:
+      - file: /etc/tor/torrc
     - require:
       - pkg: tor
       - file: /etc/tor/torrc
