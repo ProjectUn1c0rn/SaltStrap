@@ -11,7 +11,7 @@ Bootstrap an Isolated Tor instance on bare Debian stable (Ubuntu needs testing) 
 
 
 ```bash
-export SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap&&export SALTSTRAP_GIT_BRANCH=instance-tor &&apt-get install ca-certificates -y&&wget -O - https://goo.gl/Lz4FLn|sh
+export SALTSTRAP_NONTOR=192.168.1.0/24&&export SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap&&export SALTSTRAP_GIT_BRANCH=instance-tor &&apt-get install ca-certificates -y&&wget -O - https://goo.gl/Lz4FLn|sh
 ```
 Machine will reboot to complete isolation and all trafic will now go trough tor's network !
 Exceptions : 192.168.1.0/24
