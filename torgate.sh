@@ -41,3 +41,8 @@ iptables -A OUTPUT -j REJECT
 #fix for leak from : https://lists.torproject.org/pipermail/tor-talk/2014-March/032503.html
 iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,FIN ACK,FIN -j DROP
 iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,RST ACK,RST -j DROP
+
+service tor restart
+
+[ ! -f /var/run/torgate.configured ] && shutdown -t 10 1 "Rebooting to finish full tor isolation !"
+touch /var/run/torgate.configured
