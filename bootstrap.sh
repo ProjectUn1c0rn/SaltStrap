@@ -1,7 +1,4 @@
 #!/bin/bash
-# Configure your git repo here :
-export SALTSTRAP_GIT=https://github.com/ProjectUn1c0rn/SaltStrap.git
-export SALTSTRAP_GIT_BRANCH=master
 # Debian testing needs this :
 export BS_PIP_ALLOWED=0
 # Bootstrap salstack, we'll use it masterless :
