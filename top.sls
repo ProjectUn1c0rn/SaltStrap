@@ -1,4 +1,3 @@
 base:
   '*':
     - saltstrap
-    - tor
