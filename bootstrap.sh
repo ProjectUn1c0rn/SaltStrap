@@ -1,6 +1,11 @@
 #!/bin/bash
 # Debian testing needs this :
 export BS_PIP_ALLOWED=0
+
+# Set git-repo variable system wide
+echo SALTSTRAP_GIT_URL=${SALTSTRAP_GIT_URL} > /etc/environment
+echo SALTSTRAP_GIT_BRANCH=${SALTSTRAP_GIT_BRANCH} >> /etc/environment
+
 # Bootstrap salstack, we'll use it masterless :
 wget -O - https://bootstrap.saltstack.com  -O -|sh
 
@@ -10,7 +15,7 @@ cat > /etc/salt/minion <<EOF
 EOF
 
 # If no salt repo in /srv yet, clone it
-[ ! -d /srv/salt ] && git clone -b ${SALTSTRAP_GIT_BRANCH} ${SALTSTRAP_GIT} /srv/salt
+[ ! -d /srv/salt ] && git clone -b ${SALTSTRAP_GIT_BRANCH} ${SALTSTRAP_GIT_URL} /srv/salt
 
 # Making sure git repo is up to date
 cd /srv/salt
