@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /srv/salt
+git pull&&git submodule update
+salt-call --local state.highstate
