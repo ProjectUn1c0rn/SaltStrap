@@ -1,8 +1,18 @@
 #!/bin/sh
 
 ### set variables
-#destinations you don't want routed through Tor
-_non_tor="192.168.1.0/24"
+
+# destinations you don't want routed through Tor are 
+# gathered from bootstrap export (export SALTSTRAP_NONTOR=192.168.1.0/24)
+
+REBOOT_ME=0
+if [ ! -f /var/run/torgate.configured ]; then
+	#not configured yet, get non-tor nets from env and set :
+	REBOOT_ME=1
+	echo _non_tor=$SALTSTRAP_NONTOR >> /etc/environment
+	touch /var/run/torgate.configured
+fi	
+. /etc/environment
 
 #the UID that Tor runs as (varies from system to system)
 _tor_uid=`id -u debian-tor`
@@ -44,5 +54,4 @@ iptables -I OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-fla
 
 service tor restart
 
-[ ! -f /var/run/torgate.configured ] && shutdown -t 10 1 "Rebooting to finish full tor isolation !"
-touch /var/run/torgate.configured
+[ $REBOOT_ME -eq 1 ] && shutdown -t 10 1 "Rebooting to finish full tor isolation !"
