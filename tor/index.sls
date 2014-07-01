@@ -7,7 +7,7 @@ tor-apt:
 /etc/apt/sources.list.d/tor.list:
   file:
     - managed
-    - source: salt://tor.list
+    - source: salt://tor/tor.list
     - user: root
     - group: root
     - mode: 644
@@ -25,21 +25,21 @@ tor:
       
 /etc/tor/torrc:
   file.managed:
-    - source: salt://torrc
+    - source: salt://tor/torrc
     - user: debian-tor
     - group: debian-tor
     - mode: 600
 
 /etc/dhcp/dhclient.conf:
   file.managed:
-    - source: salt://dhclient.conf
+    - source: salt://tor/dhclient.conf
     - user: root
     - group: root
     - mode: 644
 
 /etc/network/if-pre-up.d/torgate:
   file.managed:
-    - source: salt://torgate.sh
+    - source: salt://tor/torgate.sh
     - user: root
     - group: root
     - mode: 700
@@ -53,7 +53,7 @@ runtorgate:
 
 /etc/resolv.conf:
   file.managed:
-    - source: salt://resolv.conf
+    - source: salt://tor/resolv.conf
     - user: root
     - group: root
     - mode: 644
