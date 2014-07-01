@@ -1,6 +1,6 @@
 #SaltStrap
 
-Bootstrap an Un1c0rn instance from bare Debian stable
+Bootstrap an instance on bare Debian stable (Ubuntu needs testing) from a git repo and provide update tools
 
 ##Requirement
 
@@ -10,7 +10,11 @@ Bootstrap an Un1c0rn instance from bare Debian stable
 ##Install 
 
 ```bash
-apt-get install ca-certificates -y
-wget -O - https://raw.githubusercontent.com/ProjectUn1c0rn/SaltStrap/master/bootstrap.sh|sh
+apt-get install ca-certificates -y&&wget -O - https://raw.githubusercontent.com/ProjectUn1c0rn/SaltStrap/master/bootstrap.sh|sh
 ```
+
+##Development
+
+Branch this repository and adapt your repo URL in bootstrap.sh
+
 
