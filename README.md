@@ -15,8 +15,20 @@ export SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap&&export SAL
 
  * http://goo.gl/Lz4FLn -> Latest bootstrap.sh from Saltstrap
 
+##Usage
+
+###saltstrap-update
+
+Update the machine from origin git repo
+
+```bash
+ saltstrap-update
+```
+
 ##Development
 
-Branch this repository and adapt your repo URL in bootstrap.sh
+Branch this repository and adapt your repo URL in the oneliner install command (SALTSTRAP_GIT_URL and BRANCH)
+
+
 
 
