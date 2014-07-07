@@ -7,8 +7,7 @@
 export BS_PIP_ALLOWED=0
 
 # Set git-repo variable system wide
-echo SALTSTRAP_GIT_URL=${SALTSTRAP_GIT_URL} > /etc/environment
-echo SALTSTRAP_GIT_BRANCH=${SALTSTRAP_GIT_BRANCH} >> /etc/environment
+env|grep ^SALTSTRAP_ > /etc/environment
 
 # Bootstrap salstack, we'll use it masterless :
 wget -O - https://bootstrap.saltstack.com  -O -|sh
