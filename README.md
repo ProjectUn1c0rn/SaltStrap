@@ -10,7 +10,10 @@ Bootstrap an instance on bare Debian stable (Ubuntu needs testing) from a git re
 ##Install 
 
 ```bash
-export SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap&&export SALTSTRAP_GIT_BRANCH=master &&apt-get install ca-certificates -y&&wget -O - https://goo.gl/Lz4FLn|bash
+SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap
+SALTSTRAP_GIT_BRANCH=master
+apt-get install ca-certificates -y
+wget -O - https://goo.gl/Lz4FLn|bash
 ```
 
  * http://goo.gl/Lz4FLn -> Latest bootstrap.sh from Saltstrap
@@ -46,5 +49,6 @@ Edit top.sls and add new states !
 
 You shouldn't need to modify bootstrap.sh , but if you do, don't forget to edit the "wget -O - https://goo.gl/Lz4FLn|bash" part in your README.md
 
+There's a full blown example deploying a Un1c0rn.net minion's at https://github.com/ProjectUn1c0rn/SaltStrap/tree/unicorn-minion
 
 
