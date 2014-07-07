@@ -6,9 +6,6 @@
 # Debian testing needs this :
 export BS_PIP_ALLOWED=0
 
-# Set git-repo variable system wide
-env|grep ^SALTSTRAP_ > /etc/environment
-
 # Bootstrap salstack, we'll use it masterless :
 wget -O - https://bootstrap.saltstack.com  -O -|sh
 
@@ -31,6 +28,11 @@ cd /srv/salt
 git pull
 git submodule init
 git submodule update
+
+# Setting minion grains from SALTSTRAP ENV 
+env|grep ^SALTSTRAP_|while read line; do
+  salt-call --local grains.setval "$(echo $line|cut -d\= -f1)" "$(echo $line|cut -d\= -f2)"
+done
 
 # Masterless mode, using /srv/salt 
 salt-call --local state.highstate
