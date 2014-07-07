@@ -18,10 +18,16 @@ cat > /etc/salt/minion <<EOF
 #all default
 EOF
 
+## try to update and exit again if salt wasn't installed in dev mode 
+[[ -n "${DEV_MODE}" ]] && salt-call --local state.highstate && exit 0
+
+## You still there ?, die !
+[[ -n "${DEV_MODE}" ]] && echo Salt is not configured correctly \!&& exit 1
+
 # If no salt repo in /srv yet, clone it
 [ ! -d /srv/salt ] && git clone -b ${SALTSTRAP_GIT_BRANCH} ${SALTSTRAP_GIT_URL} /srv/salt
 
-# Making sure git repo is up to datez
+# Making sure git repo is up to date
 cd /srv/salt
 git pull
 git submodule init
