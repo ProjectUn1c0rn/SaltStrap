@@ -44,7 +44,7 @@ Branch this repository and adapt your repo URL in the oneliner install command (
 
 Edit top.sls and add new states !
 
-You shouldn't need to modify bootstrap.sh , but if you do, don't forget to edit the "wget -O - https://goo.gl/Lz4FLn|sh" part in your README.md
+You shouldn't need to modify bootstrap.sh , but if you do, don't forget to edit the "wget -O - https://goo.gl/Lz4FLn|bash" part in your README.md
 
 
 
