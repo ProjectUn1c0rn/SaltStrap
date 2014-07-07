@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=$PATH:/usr/local/bin
 cd /srv/salt
 git pull&&git submodule update
 # change every setting we could have set by env :
