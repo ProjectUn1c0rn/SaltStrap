@@ -10,8 +10,8 @@ Bootstrap an instance on bare Debian stable (Ubuntu needs testing) from a git re
 ##Install 
 
 ```bash
-SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap
-SALTSTRAP_GIT_BRANCH=master
+export SALTSTRAP_GIT_URL=https://github.com/ProjectUn1c0rn/SaltStrap
+export SALTSTRAP_GIT_BRANCH=master
 apt-get install ca-certificates -y
 wget -O - https://goo.gl/Lz4FLn|bash
 ```
