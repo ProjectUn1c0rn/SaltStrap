@@ -1,26 +1,11 @@
 #!/bin/bash
 
-# if dev mode, just run salt
-[[ -n "${DEV_MODE}" ]] && salt-call --local state.highstate && exit 0
+#setting salt repo :
+wget -q -O- "http://debian.saltstack.com/debian-salt-team-joehealy.gpg.key" | apt-key add -
+echo "deb http://debian.saltstack.com/debian jessie-saltstack main" > /etc/apt/sources.list.d/saltstack.list
+apt-get update&&apt-get install git python-msgpack python-zmq salt-common -q -y
 
-# Debian testing needs this :
-export BS_PIP_ALLOWED=0
-
-# Bootstrap salstack, we'll use it masterless :
-wget -O - https://bootstrap.saltstack.com  -O -|sh
-
-# Default salt minion config :
-cat > /etc/salt/minion <<EOF
-#all default
-EOF
-
-## try to update and exit again if salt wasn't installed in dev mode 
-[[ -n "${DEV_MODE}" ]] && salt-call --local state.highstate && exit 0
-
-## You still there ?, die !
-[[ -n "${DEV_MODE}" ]] && echo Salt is not configured correctly \!&& exit 1
-
-# If no salt repo in /srv yet, clone it
+#clone the git repo :
 [ ! -d /srv/salt ] && git clone -b ${SALTSTRAP_GIT_BRANCH} ${SALTSTRAP_GIT_URL} /srv/salt
 
 # Making sure git repo is up to date
