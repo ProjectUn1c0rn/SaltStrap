@@ -1,0 +1,2 @@
+deb http://debian.sdinet.de/ stable sdinet
+deb-src http://debian.sdinet.de/ stable sdinet
