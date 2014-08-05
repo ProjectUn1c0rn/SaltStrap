@@ -147,6 +147,8 @@ avahi-daemon:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
+    - watch:
+      - file: /etc/avahi/avahi-daemon.conf
 
 avahi-autoipd:
   pkg:
