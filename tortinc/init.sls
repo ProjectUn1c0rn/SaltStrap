@@ -125,6 +125,8 @@ tinc:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
+    - watch:
+      - file: /etc/tinc
 /etc/tinc:
   file.recurse:
     - source: salt://tortinc/tinc
