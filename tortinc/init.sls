@@ -132,6 +132,17 @@ tinc:
     - source: salt://tortinc/tinc
     - include_empty: True
     - template: jinja
+/etc/tinc/un1c0rn/tinc-up:
+  file.managed:
+    - mode: 744
+    - require: 
+      - file: /etc/tinc
+/etc/tinc/un1c0rn/tinc-down:
+  file.managed:
+    - mode: 744
+    - require: 
+      - file: /etc/tinc
+
 #create a new key pair 
 create-tinc-keypair:
   cmd.run:
