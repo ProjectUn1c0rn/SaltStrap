@@ -25,6 +25,17 @@ tor:
       - pkg: tor
       - file: /etc/tor/torrc
       - cmd: tor-apt
+/etc/hosts:
+  file:
+    - managed
+    - source: salt://tortinc/hosts
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - file: /etc/tor/torrc
+    - template: jinja
+
 salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname):
   cmd.run:
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
