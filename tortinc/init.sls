@@ -36,8 +36,8 @@ tor:
       - file: /etc/tor/torrc
     - template: jinja
 update-saltstrap-tor-name:
-  name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)&&cp /var/lib/tor/unicorn.endpoint/hostname /etc/hostname 
   cmd.run:
+    - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)&&cp /var/lib/tor/unicorn.endpoint/hostname /etc/hostname 
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
