@@ -13,3 +13,79 @@ tor-apt:
     - mode: 644
     - require:
       - cmd: tor-apt
+tor:
+  pkg:
+    - latest
+  service:
+    - running
+    - watch:
+      - file: /etc/tor/torrc
+    - require:
+      - service: ntp
+      - pkg: tor
+      - file: /etc/tor/torrc
+      - cmd: tor-apt
+
+ntp:
+  pkg:
+    - latest
+  service:
+    - running
+    - watch:
+      - file: /etc/ntp/ntp.conf
+    - require:
+      - pkg: ntp
+      - file: /etc/ntp/ntp.conf
+
+/etc/ntp/ntp.conf:
+  file.managed:
+    - source: salt://tor/ntp.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - makedirs: true
+    
+/etc/tor/torrc:
+  file.managed:
+    - source: salt://tor/torrc
+    - user: debian-tor
+    - group: debian-tor
+    - mode: 600
+    - makedirs: true
+
+/etc/dhcp/dhclient.conf:
+  file.managed:
+    - source: salt://tor/dhclient.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+/etc/network/if-pre-up.d/torgate:
+  file.managed:
+    - source: salt://tor/torgate.sh
+    - user: root
+    - group: root
+    - mode: 700
+    
+runtorgate:
+  cmd.run:
+    - name: /etc/network/if-pre-up.d/torgate 
+    - require:
+      - file: /etc/network/if-pre-up.d/torgate
+      - file: /etc/torgate.conf
+      - service: tor
+
+/etc/torgate.conf:
+  file.managed:
+    - source: salt://tor/torgate.conf
+    - user: root
+    - group: root
+    - mode: 600
+    - template: jinja
+
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://tor/resolv.conf
+    - user: root
+    - group: root
+    - mode: 644
