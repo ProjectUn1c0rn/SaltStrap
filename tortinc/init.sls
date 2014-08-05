@@ -25,7 +25,11 @@ tor:
       - pkg: tor
       - file: /etc/tor/torrc
       - cmd: tor-apt
-
+salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname):
+  cmd.run:
+    - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
+    - require:
+      - file: /etc/tor/torrc
 ntp:
   pkg:
     - latest
