@@ -1,5 +1,5 @@
 
-;Adding officials tor repository key
+#Adding officials tor repository key
 
 tor-apt:
   cmd:
@@ -7,7 +7,7 @@ tor-apt:
     - name: apt-key adv --keyserver keys.gnupg.net --recv 886DDD89
     - unless: apt-key list | grep -q 886DDD89
 
-; and repo source :
+#and repo source :
 /etc/apt/sources.list.d/tor.list:
   file:
     - managed
@@ -18,23 +18,23 @@ tor-apt:
     - require:
       - cmd: tor-apt
       
-; installing tor package
+# installing tor package
 tor:
   pkg:
     - latest
   service:
     - running
     - watch:
-    ; make sure we restart tor if we update the config
+    # make sure we restart tor if we update the config
       - file: /etc/tor/torrc
     - require:
-      ; tor is picky with time drift, and so should you ;)
+      # tor is picky with time drift, and so should you ;)
       - service: ntp
       - pkg: tor
       - file: /etc/tor/torrc
       - cmd: tor-apt
 
-; set hostname to torname :  
+# set hostname to torname :  
 /etc/hosts:
   file:
     - managed
@@ -46,14 +46,14 @@ tor:
       - file: /etc/tor/torrc
       - cmd: update-saltstrap-tor-name
     - template: jinja
-; update local grains to match our new tor name
+# update local grains to match our new tor name
 update-saltstrap-tor-name:
   cmd.run:
     - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)&&cp /var/lib/tor/unicorn.endpoint/hostname /etc/hostname 
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
-; ntp install :
+# ntp install :
 ntp:
   pkg:
     - latest
@@ -88,14 +88,14 @@ ntp:
     - group: root
     - mode: 644
 
-;make sure we're running jailed everytime a new interface comes up :
+#make sure we're running jailed everytime a new interface comes up :
 /etc/network/if-pre-up.d/torgate:
   file.managed:
     - source: salt://tortinc/torgate.sh
     - user: root
     - group: root
     - mode: 700
-;run jailing for the first time and reboot :
+#run jailing for the first time and reboot :
 runtorgate:
   cmd.run:
     - name: /etc/network/if-pre-up.d/torgate 
