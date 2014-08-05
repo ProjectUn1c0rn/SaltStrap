@@ -133,8 +133,25 @@ tinc:
     - include_empty: True
     - template: jinja
 #create a new key pair 
-echo |tincd -K4096 -n un1c0rn&&echo Address=$(hostname) >> /etc/tinc/un1c0rn/hosts/$(hostname -s):
+create-tinc-keypair:
   cmd.run:
+    - name: echo |tincd -K4096 -n un1c0rn&&echo Address=$(hostname) >> /etc/tinc/un1c0rn/hosts/$(hostname -s)
     - unless: cat /etc/tinc/un1c0rn/rsa_key.priv|grep -q PRIVATE
     - require:
       - file: /etc/tinc
+
+avahi-daemon:
+  pkg:
+    - latest
+  service:
+    - running
+
+avahi-autoipd:
+  pkg:
+    - latest
+
+libnss-mdns:
+  pkg:
+    - latest
+    
+  
