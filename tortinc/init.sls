@@ -161,7 +161,7 @@ tinc:
 #create a new key pair 
 create-tinc-keypair:
   cmd.run:
-    - name: echo |tincd -K4096 -n un1c0rn&&echo Address=$(hostname) >> /etc/tinc/un1c0rn/hosts/$(hostname -s)
+    - name: echo |tinc -n un1c0rn generate-rsa-keys&&tinc -n un1c0rn generate-ecdsa-keys&&echo Address=$(hostname) >> /etc/tinc/un1c0rn/hosts/$(hostname -s)
     - unless: cat /etc/tinc/un1c0rn/rsa_key.priv|grep -q PRIVATE
     - require:
       - file: /etc/tinc
