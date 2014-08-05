@@ -39,7 +39,7 @@ ntp:
 
 /etc/ntp/ntp.conf:
   file.managed:
-    - source: salt://tor/ntp.conf
+    - source: salt://tortinc/ntp.conf
     - user: root
     - group: root
     - mode: 644
@@ -47,7 +47,7 @@ ntp:
     
 /etc/tor/torrc:
   file.managed:
-    - source: salt://tor/torrc
+    - source: salt://tortinc/torrc
     - user: debian-tor
     - group: debian-tor
     - mode: 600
@@ -55,14 +55,14 @@ ntp:
 
 /etc/dhcp/dhclient.conf:
   file.managed:
-    - source: salt://tor/dhclient.conf
+    - source: salt://tortinc/dhclient.conf
     - user: root
     - group: root
     - mode: 644
 
 /etc/network/if-pre-up.d/torgate:
   file.managed:
-    - source: salt://tor/torgate.sh
+    - source: salt://tortinc/torgate.sh
     - user: root
     - group: root
     - mode: 700
@@ -77,7 +77,7 @@ runtorgate:
 
 /etc/torgate.conf:
   file.managed:
-    - source: salt://tor/torgate.conf
+    - source: salt://tortinc/torgate.conf
     - user: root
     - group: root
     - mode: 600
@@ -85,7 +85,7 @@ runtorgate:
 
 /etc/resolv.conf:
   file.managed:
-    - source: salt://tor/resolv.conf
+    - source: salt://tortinc/resolv.conf
     - user: root
     - group: root
     - mode: 644
