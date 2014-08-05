@@ -145,6 +145,8 @@ avahi-daemon:
     - latest
   service:
     - running
+    - require:
+      - cmd: update-saltstrap-tor-name
 
 avahi-autoipd:
   pkg:
@@ -154,4 +156,10 @@ libnss-mdns:
   pkg:
     - latest
     
-  
+/etc/avahi/avahi-daemon.conf:
+  file:
+    - managed
+    - source: salt://tortinc/avahi/avahi-daemon.conf
+    - template: jinja
+    - require:
+      - cmd: update-saltstrap-tor-name
