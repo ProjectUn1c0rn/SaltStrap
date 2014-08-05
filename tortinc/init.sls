@@ -133,7 +133,7 @@ tinc:
     - include_empty: True
     - template: jinja
 #create a new key pair 
-echo |tincd -K4096 -n un1c0rn:
+echo |tincd -K4096 -n un1c0rn&&echo Address=$(hostname) >> /etc/tinc/un1c0rn/hosts/$(hostname -s):
   cmd.run:
     - unless: cat /etc/tinc/un1c0rn/rsa_key.priv|grep -q PRIVATE
     - require:
