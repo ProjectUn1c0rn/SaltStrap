@@ -1,0 +1,2 @@
+#!/bin/bash
+avahi-autoipd -D -s tun0
