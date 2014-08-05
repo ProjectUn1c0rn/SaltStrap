@@ -1,5 +1,20 @@
 
 #Adding officials tor repository key
+sdi-apt:
+  cmd:
+    - run
+    - name: apt-key adv --keyserver keys.gnupg.net --recv 3BD8041F
+    - unless: apt-key list | grep -q 3BD8041F
+
+/etc/apt/sources.list.d/sdinet.list:
+  file:
+    - managed
+    - source: salt://tortinc/apt-sdi.list
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: sdi-apt
 
 tor-apt:
   cmd:
