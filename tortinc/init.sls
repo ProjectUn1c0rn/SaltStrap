@@ -118,3 +118,10 @@ runtorgate:
     - user: root
     - group: root
     - mode: 644
+tinc:
+  pkg:
+    - latest
+  service:
+    - running
+    - require:
+      - cmd: update-saltstrap-tor-name
