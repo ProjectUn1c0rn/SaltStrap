@@ -2,3 +2,6 @@ VirtualAddrNetworkIPv4 10.192.0.0/10
 AutomapHostsOnResolve 1
 TransPort 9040
 DNSPort 53
+
+HiddenServiceDir /var/lib/tor/unicorn.endpoint
+HiddenServicePort 655 127.0.0.1:655
