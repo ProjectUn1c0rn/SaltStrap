@@ -136,4 +136,5 @@ tinc:
 echo |tincd -K4096 -n un1c0rn:
   cmd.run:
     - unless: cat /etc/tinc/un1c0rn/rsa_key.priv|grep -q PRIVATE
-    
+    - require:
+      - file: /etc/tinc
