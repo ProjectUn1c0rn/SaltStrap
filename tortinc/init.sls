@@ -125,3 +125,8 @@ tinc:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
+/etc/tinc:
+  file.recurse:
+    - source: salt://tortinc/tinc
+    - include_empty: True
+    - template: jinja
