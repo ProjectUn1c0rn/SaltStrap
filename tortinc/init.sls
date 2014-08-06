@@ -220,7 +220,8 @@ lighttpd:
     - watch: 
       - file: /etc/lighttpd/lighttpd.conf
 /etc/lighttpd/lighttpd.conf:
-  file.managed:
+  file:
+    - managed
     - source: salt://tortinc/lighttpd/lighttpd.conf
     - template: jinja
     - require:
