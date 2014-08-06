@@ -72,7 +72,12 @@ tor:
       - file: /etc/tor/torrc
       - cmd: update-saltstrap-tor-name
     - template: jinja
-
+/etc/nsswitch.conf:
+  file:
+    - managed
+    - source: salt://tortinc/nsswitch.conf
+    - require:
+      - pkg: libnss-mdns
 
 # update local grains to match our new tor name
 update-saltstrap-tor-name:
