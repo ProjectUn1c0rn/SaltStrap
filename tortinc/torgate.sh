@@ -13,6 +13,8 @@ if [ ! -f /etc/torgate.configured ]; then
 fi	
 . /etc/torgate.conf
 
+_non_tor="$_non_tor 224.0.0.251" #allowing mdns avahi only broadcast/respond on vpn
+
 #the UID that Tor runs as (varies from system to system)
 _tor_uid=`id -u debian-tor`
 
