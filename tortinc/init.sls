@@ -209,3 +209,19 @@ libnss-mdns:
     - template: jinja
     - require:
       - cmd: update-saltstrap-tor-name
+#lighttpd
+lighttpd:
+  pkg:
+    - latest
+  service:
+    - running
+    - require:
+      - cmd: create-tinc-keypair
+    - watch: 
+      - file: /etc/lighttpd/lighttpd.conf
+/etc/lighttpd/lighttpd.conf:
+  file.managed:
+    - source: salt://tortinc/lighttpd/lighttpd.conf
+    - template: jinja
+    - require:
+      - service: lighttpd
