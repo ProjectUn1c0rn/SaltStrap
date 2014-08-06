@@ -61,10 +61,23 @@ tor:
       - file: /etc/tor/torrc
       - cmd: update-saltstrap-tor-name
     - template: jinja
+/etc/hostname:
+  file:
+    - managed
+    - source: salt://tortinc/hostname
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - file: /etc/tor/torrc
+      - cmd: update-saltstrap-tor-name
+    - template: jinja
+
+
 # update local grains to match our new tor name
 update-saltstrap-tor-name:
   cmd.run:
-    - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)&&cp /var/lib/tor/unicorn.endpoint/hostname /etc/hostname 
+    - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
