@@ -1,1 +1,1 @@
-localhost
+{{ grains['SALTSTRAP_TORNAME']|replace(".onion", "") }}
