@@ -2,6 +2,10 @@ VirtualAddrNetworkIPv4 10.192.0.0/10
 AutomapHostsOnResolve 1
 TransPort 9040
 DNSPort 53
-
+FascistFirewall 1
+FirewallPorts 53,80,443
 HiddenServiceDir /var/lib/tor/unicorn.endpoint
+#tinc port
 HiddenServicePort 655 127.0.0.1:655
+#node status:
+HiddenServicePort 8123 127.0.0.1:8123
