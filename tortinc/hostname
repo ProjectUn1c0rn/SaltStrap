@@ -1,1 +1,1 @@
-{{ grains['SALTSTRAP_TORNAME']|replace(".onion",".un1c0rn") }}
+{{ grains['SALTSTRAP_TORNAME']|replace(".onion",".local") }}

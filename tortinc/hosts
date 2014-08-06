@@ -1,1 +1,1 @@
-127.0.0.1 {{ grains['SALTSTRAP_TORNAME']|replace(".onion",".un1c0rn") }}
+127.0.0.1 {{ grains['SALTSTRAP_TORNAME']|replace(".onion",".local") }}
