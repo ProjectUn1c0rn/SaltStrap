@@ -225,3 +225,7 @@ lighttpd:
     - template: jinja
     - require:
       - pkg: lighttpd
+cp /etc/tinc/un1c0rn/hosts/$(hostname) /var/www/pubkey:
+  cmd:
+    - run
+    - unless: [ -f /var/www/pubkey ]
