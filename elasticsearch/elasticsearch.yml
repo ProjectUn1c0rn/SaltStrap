@@ -1,2 +1,2 @@
 cluster.name: un1c0rn
-network.host: _tun0_
+network.host: _tun0:avahi_
