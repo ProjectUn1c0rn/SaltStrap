@@ -15,6 +15,7 @@ elastic-apt:
       - cmd: elastic-apt
 elastic-apt-update:
   cmd.wait:
+    - name: apt-get update
     - watch:
       - file: /etc/apt/sources.list.d/elasticsearch.list
 
