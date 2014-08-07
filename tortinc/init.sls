@@ -86,7 +86,6 @@ update-saltstrap-tor-name:
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
-      - cmd: runtorgate
 # ntp install :
 ntp:
   pkg:
@@ -137,6 +136,7 @@ runtorgate:
       - file: /etc/network/if-pre-up.d/torgate
       - file: /etc/torgate.conf
       - service: tor
+      - cmd: update-saltstrap-tor-name
 
 /etc/torgate.conf:
   file.managed:
