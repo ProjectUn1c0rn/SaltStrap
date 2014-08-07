@@ -160,6 +160,11 @@ tinc:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
+      - service: tor
+      - pkg: avahi-autoipd
+      - file: /etc/tinc/un1c0rn/tinc-up
+      - file: /etc/tinc/un1c0rn/tinc-down
+      - file: /etc/tinc
     - watch:
       - file: /etc/tinc
 /etc/tinc:
@@ -193,6 +198,7 @@ avahi-daemon:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
+      - service: tinc
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
 
@@ -200,9 +206,11 @@ avahi-autoipd:
   pkg:
     - latest
 
+
 libnss-mdns:
   pkg:
     - latest
+  
     
 /etc/avahi/avahi-daemon.conf:
   file:
@@ -218,6 +226,7 @@ lighttpd:
     - running
     - require:
       - cmd: create-tinc-keypair
+      - service: tinc
     - watch: 
       - file: /etc/lighttpd/lighttpd.conf
 /etc/lighttpd/lighttpd.conf:
