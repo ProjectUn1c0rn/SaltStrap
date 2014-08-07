@@ -1,2 +1,5 @@
+
 cluster.name: un1c0rn
 network.host: {{ grains['SALTSTRAP_TORNAME']|replace(".onion", ".local") }} 
+node.name: {{ grains['SALTSTRAP_TORNAME']|replace(".onion", "") }}
+
