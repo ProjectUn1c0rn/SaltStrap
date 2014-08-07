@@ -1,11 +1,11 @@
-
-#Adding officials tor repository key
+## Step 1 : repositories :
+#Adding sdinet repository key for tinc 1.1 :
 sdi-apt:
   cmd:
     - run
     - name: apt-key adv --keyserver keys.gnupg.net --recv 3BD8041F
     - unless: apt-key list | grep -q 3BD8041F
-
+#Adding source.list
 /etc/apt/sources.list.d/sdinet.list:
   file:
     - managed
@@ -15,7 +15,7 @@ sdi-apt:
     - mode: 644
     - require:
       - cmd: sdi-apt
-
+#Adding offical tor repo key
 tor-apt:
   cmd:
     - run
@@ -32,61 +32,7 @@ tor-apt:
     - mode: 644
     - require:
       - cmd: tor-apt
-      
-# installing tor package
-tor:
-  pkg:
-    - latest
-  service:
-    - running
-    - watch:
-    # make sure we restart tor if we update the config
-      - file: /etc/tor/torrc
-    - require:
-      # tor is picky with time drift, and so should you ;)
-      - service: ntp
-      - pkg: tor
-      - file: /etc/tor/torrc
-      - cmd: tor-apt
-
-# set hostname to torname :  
-/etc/hosts:
-  file:
-    - managed
-    - source: salt://tortinc/hosts
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - file: /etc/tor/torrc
-      - cmd: update-saltstrap-tor-name
-    - template: jinja
-/etc/hostname:
-  file:
-    - managed
-    - source: salt://tortinc/hostname
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - file: /etc/tor/torrc
-      - cmd: update-saltstrap-tor-name
-    - template: jinja
-/etc/nsswitch.conf:
-  file:
-    - managed
-    - source: salt://tortinc/nsswitch.conf
-    - require:
-      - pkg: libnss-mdns
-
-# update local grains to match our new tor name
-update-saltstrap-tor-name:
-  cmd.run:
-    - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /var/lib/tor/unicorn.endpoint/hostname)
-    - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
-    - require:
-      - file: /etc/tor/torrc
-      - service: tor
+# installing ntp to make tor happy :
 # ntp install :
 ntp:
   pkg:
@@ -107,6 +53,22 @@ ntp:
     - mode: 644
     - makedirs: true
     
+# installing tor package
+tor:
+  pkg:
+    - latest
+  service:
+    - running
+    - watch:
+    # make sure we restart tor if we update the config
+      - file: /etc/tor/torrc
+    - require:
+      # tor is picky with time drift, and so should you ;)
+      - service: ntp
+      - pkg: tor
+      - file: /etc/tor/torrc
+      - cmd: tor-apt
+
 /etc/tor/torrc:
   file.managed:
     - source: salt://tortinc/torrc
@@ -114,13 +76,53 @@ ntp:
     - group: debian-tor
     - mode: 600
     - makedirs: true
+    - require
+      - service: tor
 
+## Now we have : 
+# tor installed and running
+# services declared
+# lets use tor name a hostname
+
+/etc/hostname:
+  file:
+    - symlink
+    - backupname: /etc/hostname.old
+    - target: /var/lib/tor/unicorn.endpoint/hostname
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - file: /etc/tor/torrc
+      - service: tor
+
+#clear all things that could leak info :
+## dhcp :
 /etc/dhcp/dhclient.conf:
   file.managed:
     - source: salt://tortinc/dhclient.conf
     - user: root
     - group: root
     - mode: 644
+## dns to tor
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://tortinc/resolv.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+# update local grains to match our new tor name, due to cache we wont be able to use it till next salt-call
+# that's okay since we're rebooting in torgate to complete isolation ;)
+
+update-saltstrap-tor-name:
+  cmd.run:
+    - name: salt-call --local grains.setval SALTSTRAP_TORNAME $(cat /etc/hostname)
+    - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
+    - require:
+      - service: tor
+      - file: /etc/hostname
+
 
 #make sure we're running jailed everytime a new interface comes up :
 /etc/network/if-pre-up.d/torgate:
@@ -129,6 +131,15 @@ ntp:
     - user: root
     - group: root
     - mode: 700
+
+/etc/torgate.conf:
+  file.managed:
+    - source: salt://tortinc/torgate.conf
+    - user: root
+    - group: root
+    - mode: 600
+    - template: jinja
+
 #run jailing for the first time and reboot :
 runtorgate:
   cmd.run:
@@ -139,20 +150,9 @@ runtorgate:
       - service: tor
       - cmd: update-saltstrap-tor-name
 
-/etc/torgate.conf:
-  file.managed:
-    - source: salt://tortinc/torgate.conf
-    - user: root
-    - group: root
-    - mode: 600
-    - template: jinja
 
-/etc/resolv.conf:
-  file.managed:
-    - source: salt://tortinc/resolv.conf
-    - user: root
-    - group: root
-    - mode: 644
+#install the tinc stack with avahi for dns
+
 tinc:
   pkg:
     - latest
@@ -167,6 +167,8 @@ tinc:
       - file: /etc/tinc
     - watch:
       - file: /etc/tinc
+      - file: /etc/tinc/un1c0rn/tinc-up
+      - file: /etc/tinc/un1c0rn/tinc-down
 /etc/tinc:
   file.recurse:
     - source: salt://tortinc/tinc
@@ -198,18 +200,21 @@ avahi-daemon:
     - running
     - require:
       - cmd: update-saltstrap-tor-name
-      - service: tinc
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
 
 avahi-autoipd:
   pkg:
     - latest
-
+    - require:
+      - pkg: avahi-daemon
+  
 
 libnss-mdns:
   pkg:
     - latest
+    - require:
+      - pkg: avahi-daemon
   
     
 /etc/avahi/avahi-daemon.conf:
@@ -219,6 +224,15 @@ libnss-mdns:
     - template: jinja
     - require:
       - cmd: update-saltstrap-tor-name
+      - pkg: avahi-daemon
+  
+/etc/nsswitch.conf:
+  file:
+    - managed
+    - source: salt://tortinc/nsswitch.conf
+    - require:
+      - pkg: libnss-mdns
+
 lighttpd:
   pkg:
     - latest
