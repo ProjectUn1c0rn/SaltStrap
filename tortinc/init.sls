@@ -76,8 +76,7 @@ tor:
     - group: debian-tor
     - mode: 600
     - makedirs: true
-    - require:
-      - service: tor
+
 
 ## Now we have : 
 # tor installed and running
