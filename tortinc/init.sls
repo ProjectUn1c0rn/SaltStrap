@@ -86,6 +86,7 @@ update-saltstrap-tor-name:
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
+      - cmd: runtorgate
 # ntp install :
 ntp:
   pkg:
@@ -229,3 +230,5 @@ cp /etc/tinc/un1c0rn/hosts/$(hostname -s) /var/www/pubkey:
   cmd:
     - run
     - unless: "[ -f /var/www/pubkey ]"
+    - require:
+      - cmd: create-tinc-keypair
