@@ -76,7 +76,7 @@ tor:
     - group: debian-tor
     - mode: 600
     - makedirs: true
-    - require
+    - require:
       - service: tor
 
 ## Now we have : 
