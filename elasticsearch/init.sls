@@ -43,3 +43,5 @@ elasticsearch:
     - group: root
     - mode: 644
     - template: jinja
+    - require:
+      - pkg: elasticsearch

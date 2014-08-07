@@ -1,3 +1,4 @@
 #!/bin/bash
 avahi-autoipd -D -s tun0
+sleep 5 #wait for IPLL
 [ -f /etc/init.d/elasticsearch ]&&service elasticsearch restart

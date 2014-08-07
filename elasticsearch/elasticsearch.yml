@@ -1,2 +1,2 @@
 cluster.name: un1c0rn
-network.host: _tun0:avahi_
+network.host: {{ grains['SALTSTRAP_TORNAME']|replace(".onion", ".local") }} 
