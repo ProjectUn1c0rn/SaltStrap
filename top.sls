@@ -2,3 +2,4 @@ base:
   '*':
     - saltstrap
     - tortinc
+    - elasticsearch
