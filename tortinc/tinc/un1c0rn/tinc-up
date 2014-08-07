@@ -1,2 +1,3 @@
 #!/bin/bash
 avahi-autoipd -D -s tun0
+[ -f /etc/init.d/elasticsearch ]&&service elasticsearch restart
