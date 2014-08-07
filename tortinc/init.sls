@@ -86,6 +86,7 @@ update-saltstrap-tor-name:
     - unless: salt-call --local grains.get SALTSTRAP_TORNAME|grep -q onion
     - require:
       - file: /etc/tor/torrc
+      - service: tor
 # ntp install :
 ntp:
   pkg:
