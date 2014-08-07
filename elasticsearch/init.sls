@@ -13,6 +13,11 @@ elastic-apt:
     - mode: 644
     - require:
       - cmd: elastic-apt
+elastic-apt-update:
+  cmd.wait:
+    - watch:
+      - file: /etc/apt/sources.list.d/elasticsearch.list
+
 openjdk-7-jre:
   pkg:
     - latest
