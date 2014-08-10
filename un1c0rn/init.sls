@@ -39,7 +39,7 @@ php-pear:
       - pkg: php5-cli
 libgearman-dev:
   pkg.latest
-mongo-dev:
+mongodb-dev:
   pkg.latest
 php5-dev:
   pkg.latest
@@ -53,7 +53,7 @@ mongo:
   pecl.installed:
     - require:
       - pkg: php-pear
-      - pkg: mongo-dev
+      - pkg: mongodb-dev
       - pkg: php5-dev
 /etc/php5/mods-available/gearman.ini:
   file.managed:
