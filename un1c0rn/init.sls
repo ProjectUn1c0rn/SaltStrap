@@ -33,15 +33,13 @@ php5-mysql:
   pkg.latest:
     - require:
       - pkg: php5-cli
-php5-mongo:
-  pkg.latest:
-    - require:
-      - pkg: php5-cli
 php-pear:
   pkg.latest:
     - require:
       - pkg: php5-cli
 libgearman-dev:
+  pkg.latest
+mongo-dev:
   pkg.latest
 php5-dev:
   pkg.latest
@@ -51,6 +49,12 @@ gearman:
       - pkg: php-pear     
       - pkg: libgearman-dev
       - pkg: php5-dev
+mongo:
+  pecl.installed
+    - require:
+      - pkg: php-pear
+      - pkg: mongo-dev
+      - pkg: php5-dev
 /etc/php5/mods-available/gearman.ini:
   file.managed:
     - source: salt://un1c0rn/gearman-php.ini
@@ -59,10 +63,25 @@ gearman:
     - mode: 644
     - require:
       - pecl: gearman
+/etc/php5/mods-available/mongo.ini:
+  file.managed:
+    - source: salt://un1c0rn/mongo-php.ini
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pecl: mongo
+
 /usr/sbin/php5enmod gearman:
   cmd.run:
     - require:
       - file: /etc/php5/mods-available/gearman.ini
+/usr/sbin/php5enmod mongo:
+  cmd.run:
+    - require:
+      - file: /etc/php5/mods-available/mongo.ini
+
+
 /etc/bash.bashrc:
   file.managed:
     - source: salt://un1c0rn/profile
