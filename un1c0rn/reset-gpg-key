@@ -1,0 +1,24 @@
+#!/bin/bash
+[ -f ~/.gpg.generated ] && echo Alread generated \(remove ~/.gpg.generated to reset\) && exit 0
+rm ~/.gnupg -Rf
+DATA="$(rig|sed ':a;N;$!ba;s/\n/_/g')"
+NAME="$(echo $DATA|cut -d_ -f1)"
+ADDRESS="$(echo $DATA|cut -d_ -f2)"
+CITY="$(echo $DATA|cut -d_ -f3)"
+NICK="$(echo ${NAME,,}|head -c2)$(echo ${NAME,,}|cut -d\  -f2)"
+gpg --batch --gen-key >/var/log/genkey.log <<EOF
+          %echo Generating a basic OpenPGP key
+          Key-Type: RSA
+          Key-Length: 4096
+          Subkey-Type: RSA
+          Subkey-Length: 4096
+          Name-Real: $NAME
+          Name-Comment: $RANDOM
+          Name-Email: $NICK@$(salt-call --local --out=key grains.item 'SALTSTRAP_UNICORN_MASTER' |tail -1|cut -d\: -f2|xargs)
+          Expire-Date: 0
+          Passphrase: unicorn
+          %commit
+          %echo done
+EOF
+salt-call --local grains.setval "SALTSTRAP_UNICORN_NICK" $NICK
+touch ~/.gpg.generated
