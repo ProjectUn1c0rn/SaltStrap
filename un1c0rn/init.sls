@@ -50,7 +50,7 @@ gearman:
       - pkg: libgearman-dev
       - pkg: php5-dev
 mongo:
-  pecl.installed
+  pecl.installed:
     - require:
       - pkg: php-pear
       - pkg: mongo-dev
